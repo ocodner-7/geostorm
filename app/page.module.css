@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  margin-right: auto;
+}
+
+.title {
+  display: block;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.metricsContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1rem
+}

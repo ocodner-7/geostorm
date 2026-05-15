@@ -1,0 +1,5 @@
+.button {
+    background-color: var(--blue-primary);
+    color: var(--v-neutral-primary-0);
+    font-size: large;
+}
