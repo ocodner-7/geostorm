@@ -1,0 +1,17 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logoWrapper {
+    padding: 0;
+    margin: 0;
+}
+
+.logo {
+    margin: 0;
+    width: auto;
+    height: 25px;
+}

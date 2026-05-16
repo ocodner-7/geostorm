@@ -1,11 +1,12 @@
 import styles from "@/components/MetricCard.module.css";
 
 interface MetricCardProps {
-    metric: string;
+    metric: "Feels Like" | "Humidity" | "Wind" | "Precipitation";
     value: string;
 };
 
 export const MetricCard = ({ metric, value }: MetricCardProps) => {
+
     return (
         <>
             <div className={styles.root}>

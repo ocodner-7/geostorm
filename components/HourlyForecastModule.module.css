@@ -1,0 +1,48 @@
+.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--neutral-primary-700);
+  padding: 1rem;
+  border-radius: 12px;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.title {
+    margin: 0;
+    font-weight: 500;
+}
+
+.forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;  
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.hourlyForecast {
+  background-color: var(--neutral-primary-600);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--neutral-primary-700);
+  width: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

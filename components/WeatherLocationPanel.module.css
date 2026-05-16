@@ -1,3 +1,70 @@
 .root {
-    background-image: url('/images/bg-today-small.svg');
+  background-image: url("/images/bg-today-small.svg");
+  height: 250px;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.location {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.date {
+    font-size: 1rem;
+    color: var(--neutral-primary-200)
+}
+
+.temperatureBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.temperature {
+  font-size: 4rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.location,
+.date,
+.temperature {
+  margin: 5px;
+}
+
+
+@media (min-width: 768px) {
+    .root {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-image: url("/images/bg-today-large.svg");
+    }
+
+    .locationInfo {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+    }
+
+    .temperatureBox {
+        display: flex;
+        justify-content: flex-end;
+    }
 }

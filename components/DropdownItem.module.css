@@ -1,0 +1,35 @@
+.item {
+  outline: 0;
+  cursor: default;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  display: flex;
+  font-size: 0.875rem;
+  line-height: 1rem;
+
+  &[data-highlighted] {
+    z-index: 0;
+    position: relative;
+    color: var(--neutral-primary-0);
+  }
+
+  &[data-highlighted]::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0.25rem;
+    border-radius: 0.25rem;
+    background-color: var(--neutral-primary-700);
+  }
+
+  &[data-disabled][data-highlighted]::before {
+    background-color: var(--neutral-primary-0);
+  }
+
+  &[data-disabled] {
+    color: var(--neutral-primary-800);
+  }
+}
