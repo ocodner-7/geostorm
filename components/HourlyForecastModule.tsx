@@ -8,7 +8,21 @@ import { DropdownItem } from "./DropdownItem";
 import { DropdownSeparator } from "./DropdownSeparator";
 import { useState } from "react";
 
-export const HourlyForecastModule = () => {
+type Hourly = {
+  time: Date;
+  apparentTemperature: number;
+  precipitation: number;
+  windSpeed: number;
+  weatherCode: number;
+  humidity: number;
+  temperature: number;
+};
+
+interface HourlyForecastModuleProps {
+  data: Hourly[];
+}
+
+export const HourlyForecastModule = ({ data }: HourlyForecastModuleProps) => {
   const days = [
     "Monday",
     "Tuesday",

@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.100.10",
+    "@tanstack/react-query-devtools": "^5.100.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
