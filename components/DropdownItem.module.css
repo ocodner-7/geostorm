@@ -32,4 +32,10 @@
   &[data-disabled] {
     color: var(--neutral-primary-800);
   }
+
+    @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

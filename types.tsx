@@ -23,54 +23,13 @@ export type GeoResult = {
 
 export type WeatherCondition =
   | "sunny"
-  | "partly-cloudy"
+  | "cloudy"
   | "overcast"
   | "fog"
   | "drizzle"
   | "rain"
   | "snow"
   | "storm";
-
-// export interface WeatherLocation {
-//   city: string;
-//   country: string;
-//   localTime: string;
-//   latitude: number;
-//   longitude: number;
-// };
-
-// export interface CurrentWeather {
-//   temperature: number;
-//   feelsLike: number;
-//   humidity: number;
-//   windSpeed: number;
-//   precipitation: number;
-//   condition: WeatherCondition;
-// };
-
-// export interface HourlyWeather {
-//   time: string;
-//   temperature: number;
-//   feelsLike: number;
-//   precipitation: number;
-//   windSpeed: number;
-//   condition: WeatherCondition;
-// };
-
-// export interface DailyWeather {
-//   date: string;
-//   minTemp: number;
-//   maxTemp: number;
-//   precipitation: number;
-//   condition: WeatherCondition;
-// }
-
-// export type WeatherData = {
-//     location: WeatherLocation;
-//     current: CurrentWeather;
-//     hourly: HourlyWeather[];
-//     daily: DailyWeather[];
-// };
 
 export type WeatherData = {
  current: {
@@ -114,3 +73,31 @@ export interface Coordinates {
   lat: number;
   lon: number;
 }
+
+type HourlyItem = { 
+    time: Date;
+    temp: number;
+    code: number;
+};
+
+export type GroupedHours = Record<string, HourlyItem[]>;
+
+export type BigDataCloudResponse = {
+  city: string;
+  locality: string;
+  principalSubdivision: string;
+  countryName: string;
+  countryCode: string;
+};
+
+export type ReverseGeocodeResult = {
+  cityName: string;
+  country: string;
+};
+
+
+export type Units = {
+  temperature: "celsius" | "fahrenheit";
+  windSpeed: "kmh" | "mph";
+  precipitation: "mm" | "inch";
+};

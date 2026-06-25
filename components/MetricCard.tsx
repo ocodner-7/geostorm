@@ -4,41 +4,22 @@ import { Metric } from "@/types";
 interface MetricCardProps {
   metric: Metric;
   value: number | string;
-}
-
-const metricUnits: Record<Metric, { unit: string; space: boolean }> = {
-  "Feels Like": {
-    unit: "°",
-    space: false,
-  },
-  Humidity: {
-    unit: "%",
-    space: false,
-  },
-  Wind: {
-    unit: "km/h",
-    space: true,
-  },
-  Precipitation: {
-    unit: "mm",
-    space: true,
-  },
+  unit: string;
 };
 
-const formatMetricValue = (value: number | string, metric: Metric) => {
-  const { unit, space } = metricUnits[metric];
 
-  return `${Math.round(Number(value))}${space ? " " : ""}${unit}`;
+const formatMetricValue = (value: number | string, unit: string) => {
+  return `${Math.round(Number(value))}${unit}`;
 };
 
-export const MetricCard = ({ metric, value }: MetricCardProps) => {
+export const MetricCard = ({ metric, value, unit }: MetricCardProps) => {
   return (
     <>
       <div className={styles.root}>
         <div className={styles.metricCard}>
           <div className={styles.metricTitle}>{metric}</div>
           <div className={styles.metricValue}>
-            {formatMetricValue(value, metric)}
+            {formatMetricValue(value, unit)}
           </div>
         </div>
       </div>

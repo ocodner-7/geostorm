@@ -1,14 +1,7 @@
 "use client";
+import { getWeatherIcon } from "@/data/utils";
 import styles from "./WeatherLocationPanel.module.css";
-// import rain from "@/public/images/icon-rain.webp";
-// import drizzle from "@/public/images/icon-drizzle.webp";
-// import fog from "@/public/images/icon-fog.webp";
-// import overcast from "@/public/images/icon-overcast.webp";
-// import partlyCloudy from "@/public/images/icon-partly-cloudy.webp";
-// import storm from "@/public/images/icon-storm.webp";
-import sunny from "@/public/images/icon-sunny.webp";
 import { WeatherData } from "@/types";
-// import snow from "@/public/images/icon-snow.webp";
 import Image from "next/image";
 
 interface WeatherLocationPanelProps {
@@ -17,16 +10,13 @@ interface WeatherLocationPanelProps {
 }
 
 export const WeatherLocationPanel = ({ location, weatherData }: WeatherLocationPanelProps) => {
-  const imageMap = {
-    sunny: sunny,
-  };
 
   // Wait until weatherData is available
   if (!weatherData) {
-      return <p>Loading weather data...</p>;
-  }
+    return <p>Loading weather data...</p>;
+  };
 
-  const currentWeatherDate = new Date(weatherData.time);// Format: Day, MM, D, YYYY
+  const currentWeatherDate = new Date(weatherData.time); // Format: Day, MM, D, YYYY
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const dayName = days[currentWeatherDate.getDay()];
@@ -46,7 +36,7 @@ export const WeatherLocationPanel = ({ location, weatherData }: WeatherLocationP
 
         <div className={styles.temperatureBox}>
             <div className={styles.weatherIconWrapper}>
-                <Image src={imageMap.sunny} alt="weather icon" height={90} />      
+                <Image src={getWeatherIcon(weatherData.weatherCode)} alt="weather icon" height={90} width={90} />      
             </div>
             <p className={styles.temperature}>{roundedTemperature}&deg;</p>
         </div>

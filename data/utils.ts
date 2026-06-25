@@ -1,14 +1,10 @@
-import {
-  GeoResult,
-  WeatherCondition,
-  WeatherData,
-} from "@/types";
-import { getWeather } from "./api/getWeather";
+import { GroupedHours, Units, WeatherCondition, WeatherData } from "@/types";
+import { getWeather } from "./api/fetchWeather";
 
 export const mapWeatherCode = (code: number): WeatherCondition => {
   if (code === 0) return "sunny";
 
-  if (code === 1 || code === 2) return "partly-cloudy";
+  if (code === 1 || code === 2) return "cloudy";
 
   if (code === 3) return "overcast";
 
@@ -25,16 +21,34 @@ export const mapWeatherCode = (code: number): WeatherCondition => {
   return "sunny";
 };
 
-export const normalizeWeatherData = (raw: Awaited<ReturnType<typeof getWeather>>): WeatherData => {
+const weatherIconMap: Record<string, string> = {
+  sunny: "/images/icon-sunny.webp",
+  cloudy: "/images/icon-partly-cloudy.webp",
+  overcast: "/images/icon-overcast.webp",
+  fog: "/images/icon-fog.webp",
+  drizzle: "/images/icon-drizzle.webp",
+  rain: "/images/icon-rain.webp",
+  snow: "/images/icon-snow.webp",
+  storm: "/images/icon-storm.webp",
+};
+
+export const getWeatherIcon = (code: number) => {
+  const category = mapWeatherCode(code);
+  return weatherIconMap[category];
+};
+
+export const normalizeWeatherData = (
+  raw: Awaited<ReturnType<typeof getWeather>>,
+): WeatherData => {
   return {
     current: {
       time: raw.current.time,
-      weatherCode: Math.round(raw.current.weather_code),
-      temperature: Math.round(raw.current.temperature_2m * 10) / 10,
-      apparentTemperature: Math.round(raw.current.apparent_temperature * 10) / 10,
-      humidity: Math.round(raw.current.relative_humidity_2m),
+      weatherCode: raw.current.weather_code,
+      temperature: raw.current.temperature_2m,
+      apparentTemperature: raw.current.apparent_temperature,
+      humidity: raw.current.relative_humidity_2m,
       precipitation: raw.current.precipitation,
-      windSpeed: Math.round(raw.current.wind_speed_10m * 10) / 10,
+      windSpeed: raw.current.wind_speed_10m
     },
     hourly: raw.hourly.time.map((time, i) => ({
       time,
@@ -52,6 +66,113 @@ export const normalizeWeatherData = (raw: Awaited<ReturnType<typeof getWeather>>
       maxTemperature: raw.daily.temperature_2m_max[i],
       minTemperature: raw.daily.temperature_2m_min[i],
       precipitationSum: raw.daily.precipitation_sum[i],
+    })),
+  };
+};
+
+export const groupHourlyDataByDay = (
+  hours: WeatherData["hourly"],
+): GroupedHours => {
+  return hours.reduce<GroupedHours>((acc, item) => {
+    const dayKey = item.time.toDateString();
+
+    if (!acc[dayKey]) acc[dayKey] = [];
+
+    acc[dayKey].push({
+      time: item.time,
+      temp: item.temperature,
+      code: item.weatherCode,
+    });
+
+    return acc;
+  }, {});
+};
+
+export const getDayLabel = (dateString: string) => {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString("en-GB", {
+    weekday: "long",
+  });
+};
+
+export const convertTemperature = (
+  celsius: number,
+  to: Units["temperature"]
+) => {
+  if (to === "fahrenheit") {
+    return (celsius * 9) / 5 + 32;
+  }
+  return celsius;
+};
+
+export const round = (value: number, dp = 0) => {
+  return Math.round(value * 10 ** dp) / 10 ** dp;
+};
+
+export const convertWindSpeed = (kmh: number, to: Units["windSpeed"]) => {
+  return to === "mph" ? kmh * 0.621371 : kmh;
+};
+
+export const convertPrecipitation = (mm: number, to: Units["precipitation"]) => {
+  return to === "inch" ? mm / 25.4 : mm;
+};
+
+export const BuildWeatherViewModel = (data: WeatherData, units: Units) => {
+  return {
+    current: {
+      ...data.current,
+
+      temperature: round(convertTemperature(
+        data.current.temperature,
+        units.temperature
+      )),
+
+      apparentTemperature: round(convertTemperature(
+        data.current.apparentTemperature,
+        units.temperature
+      )),
+
+      windSpeed: round(convertWindSpeed(
+        data.current.windSpeed,
+        units.windSpeed
+      )),
+
+      precipitation: round(convertPrecipitation(
+        data.current.precipitation,
+        units.precipitation
+      )),
+    },
+
+    hourly: data.hourly.map((h) => ({
+      ...h,
+      temperature: round(convertTemperature(h.temperature, units.temperature)),
+      apparentTemperature: round(convertTemperature(
+        h.apparentTemperature,
+        units.temperature
+      )),
+      windSpeed: round(convertWindSpeed(h.windSpeed, units.windSpeed)),
+      precipitation: round(convertPrecipitation(
+        h.precipitation,
+        units.precipitation
+      )),
+    })),
+
+    daily: data.daily.map((d) => ({
+      ...d,
+      maxTemperature: round(convertTemperature(
+        d.maxTemperature,
+        units.temperature
+      )),
+      minTemperature: round(convertTemperature(
+        d.minTemperature,
+        units.temperature
+      )),
+      precipitationSum: round(convertPrecipitation(
+        d.precipitationSum,
+        units.precipitation
+      )),
+      rainSum: round(convertPrecipitation(d.rainSum, units.precipitation)),
     })),
   };
 };

@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getWeather } from "../api/getWeather";
+import { getWeather } from "../api/fetchWeather";
 import { normalizeWeatherData } from "../utils";
-import { CityResult } from "@/types";
 
 export const useWeather = (lat: number | undefined | null, lon: number | undefined | null) => {
   return useQuery({
