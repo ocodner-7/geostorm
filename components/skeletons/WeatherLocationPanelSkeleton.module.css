@@ -1,0 +1,9 @@
+.loadingRoot {
+  height: 250px;
+  background-color: var(--neutral-primary-800);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--neutral-primary-600);
+}

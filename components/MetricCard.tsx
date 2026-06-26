@@ -5,21 +5,22 @@ interface MetricCardProps {
   metric: Metric;
   value: number | string;
   unit: string;
+  loading?: boolean;
 };
 
 
 const formatMetricValue = (value: number | string, unit: string) => {
-  return `${Math.round(Number(value))}${unit}`;
+  return `${value}${unit}`;
 };
 
-export const MetricCard = ({ metric, value, unit }: MetricCardProps) => {
+export const MetricCard = ({ metric, value, unit, loading }: MetricCardProps) => {
   return (
     <>
       <div className={styles.root}>
         <div className={styles.metricCard}>
           <div className={styles.metricTitle}>{metric}</div>
           <div className={styles.metricValue}>
-            {formatMetricValue(value, unit)}
+            {loading ? "—" : formatMetricValue(value, unit)}
           </div>
         </div>
       </div>

@@ -1,0 +1,6 @@
+.skeleton {
+    background-color: var(--neutral-primary-800);
+    border-radius: 6px;
+    border: 1px solid var(--neutral-primary-700);
+    min-height: 145px;
+}

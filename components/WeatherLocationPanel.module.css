@@ -18,13 +18,13 @@
 }
 
 .location {
-    font-size: 1.5rem;
-    font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .date {
-    font-size: 1rem;
-    color: var(--neutral-primary-200)
+  font-size: 1rem;
+  color: var(--neutral-primary-200);
 }
 
 .temperatureBox {
@@ -47,24 +47,22 @@
   margin: 5px;
 }
 
-
 @media (min-width: 768px) {
-    .root {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background-image: url("/images/bg-today-large.svg");
-    }
+  .root {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-image: url("/images/bg-today-large.svg");
+  }
 
-    .locationInfo {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+  .locationInfo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
-    }
-
-    .temperatureBox {
-        display: flex;
-        justify-content: flex-end;
-    }
+  .temperatureBox {
+    display: flex;
+    justify-content: flex-end;
+  }
 }

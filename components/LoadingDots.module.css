@@ -1,0 +1,41 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loadingDots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.loadingDots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: currentColor;
+    animation: wave 0.9s infinite ease-in-out;
+}
+
+.loadingDots span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.loadingDots span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }  
+
+  30% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}

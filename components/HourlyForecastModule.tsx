@@ -2,7 +2,6 @@
 import styles from "@/components/HourlyForecastModule.module.css";
 import Image, { StaticImageData } from "next/image";
 import { Dropdown } from "./Dropdown";
-import { DropdownItem } from "./DropdownItem";
 import {
   getDayLabel,
   getWeatherIcon,
@@ -27,7 +26,10 @@ interface HourlyForecastModuleProps {
 export const HourlyForecastModule = ({
   hourlyData,
 }: HourlyForecastModuleProps) => {
-  const grouped = groupHourlyDataByDay(hourlyData);
+
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+
+  const grouped = groupHourlyDataByDay(hourlyData ?? []);
 
   const days = Object.entries(grouped).map(([date, items]) => ({
     key: date,
@@ -35,23 +37,25 @@ export const HourlyForecastModule = ({
     items,
   }));
 
-  const [selectedDay, setSelectedDay] = useState(days[0].key);
+  const activeDay = days.find((d) => d.key === selectedDay) ?? days[0];
 
-  const currentDay = days.find((day) => day.key === selectedDay);
+  const visibleHours = activeDay?.items.slice(0, 8) ?? [];
 
-  const visibleHours = currentDay?.items.slice(0, 8) ?? [];
+  const dropdownValue = activeDay?.label ?? "—";
 
   return (
     <div className={styles.root}>
       <div className={styles.header}>
         <p className={styles.title}>Hourly forecast</p>
+
         <Dropdown<string>
-          value={days.find((d) => d.key === selectedDay)?.label}
+          value={dropdownValue}
           onValueChange={setSelectedDay}
           aria-label="day"
-          items={days
-            .slice(1, 7)
-            .map((d) => ({ value: d.key, label: d.label }))}
+          items={days.slice(1, 7).map((d) => ({
+            value: d.key,
+            label: d.label,
+          }))}
         />
       </div>
 
@@ -69,7 +73,7 @@ export const HourlyForecastModule = ({
               key={hour.time.toISOString()}
               icon={getWeatherIcon(hour.code)}
               time={formattedTime}
-              temperature={hour.temp.toString()}
+              temperature={hour.temp}
             />
           );
         })}
@@ -81,8 +85,8 @@ export const HourlyForecastModule = ({
 interface HourlyForecastCardProps {
   icon: StaticImageData | string;
   time: string;
-  temperature: string;
-}
+  temperature: number;
+};
 
 const HourlyForecastCard = ({
   icon,
@@ -105,8 +109,10 @@ const HourlyForecastCard = ({
       </div>
 
       <div className={styles.temperature}>
-        {Math.round(Number(temperature))}&deg;
+        {temperature}&deg;
       </div>
     </div>
   );
 };
+
+

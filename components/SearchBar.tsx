@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
-import { Button } from "./Button";
+// import { useState } from "react";
+// import { Button } from "./Button";
 import styles from "./SearchBar.module.css";
-import { Divide, Search } from "lucide-react";
+import { Search, LoaderCircle } from "lucide-react";
 import { InputField } from "./Input";
-import { useCitySearch } from "@/data/queries/useCitySearch";
+// import { useCitySearch } from "@/data/queries/useCitySearch";
 import type { CityResult } from "@/types";
 import { Autocomplete } from "@base-ui/react";
 
@@ -25,8 +25,8 @@ export const SearchBar = ({
   error,
   onCitySelect,
 }: SearchBarProps) => {
-  const [selected, setSelected] = useState<CityResult | null>(null);
-  const [open, setOpen] = useState(true);
+  // const [selected, setSelected] = useState<CityResult | null>(null);
+  // const [open, setOpen] = useState(true);
 
   return (
     <div className={styles.root}>
@@ -40,10 +40,10 @@ export const SearchBar = ({
               value={query}
               onChange={(e) => {
                 onQueryChange(e.target.value);
-                setOpen(true);
-                setSelected(null);
+                // setOpen(true);
+                // setSelected(null);
               }}
-              onFocus={() => setOpen(true)}
+              // onFocus={() => setOpen(true)}
               placeholder="Search for a place..."
             />
           }
@@ -52,12 +52,17 @@ export const SearchBar = ({
         <Autocomplete.Portal>
           <Autocomplete.Positioner sideOffset={4} align="start">
             <Autocomplete.Popup className={styles.popup}>
-              {isSearchLoading && <div>Loading...</div>}
+              {isSearchLoading && (
+                <Autocomplete.Item className={styles.item}>
+                  <LoaderCircle className={styles.rotate} size={10} />
+                  Loading
+                </Autocomplete.Item>
+              )}
 
               {error && <div>Error</div>}
 
               {suggestions.length === 0 && !isSearchLoading && (
-                <div>No results</div>
+                <div>No search result found!</div>
               )}
 
               {suggestions.map((city) => (
@@ -76,13 +81,6 @@ export const SearchBar = ({
           </Autocomplete.Positioner>
         </Autocomplete.Portal>
       </Autocomplete.Root>
-
-      <Button
-        className={styles.searchButton}
-        // onClick={handleSearchClick}
-        disabled={suggestions.length === 0}
-        text="Search"
-      />
     </div>
   );
 };

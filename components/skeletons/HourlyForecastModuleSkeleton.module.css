@@ -36,17 +36,6 @@
   align-items: center;
 }
 
-.hourlyForecast {
-  background-color: var(--neutral-primary-600);
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-  border: 1px solid var(--neutral-primary-700);
-  width: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .emptyCard {
   background-color: var(--neutral-primary-600);
   height: 48px;

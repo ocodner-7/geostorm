@@ -33,7 +33,7 @@ export const UnitMenu = () => {
               className={styles.item}
               onClick={() => setAll(isImperial ? "metric" : "imperial")}
             >
-              Switch to {isImperial ? "metric" : "imperial"}
+              Switch to {isImperial ? "Metric" : "Imperial"}
             </Menu.Item>
 
             <Menu.Group>

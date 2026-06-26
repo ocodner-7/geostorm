@@ -1,13 +1,32 @@
 .button {
-    background-color: var(--blue-secondary);
-    color: var(--neutral-primary);
-    font-size: 1rem;
-    padding: 0.75rem 0.5rem;
-    border-radius: 6px;
-    border: none;
+  color: var(--neutral-primary);
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.primary {
+  background-color: var(--blue-secondary);
+}
+
+.secondary {
+  background-color: var(--neutral-primary-800);
 }
 
 .button:hover {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.primary:hover {
     background-color: var(--blue-primary);
+}
+
+.secondary:hover {
+    background-color: var(--neutral-primary-600);
 }
