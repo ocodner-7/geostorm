@@ -10,7 +10,6 @@ interface SearchBarProps {
   onQueryChange: (value: string) => void;
   suggestions: CityResult[];
   isSearchLoading: boolean;
-  error: Error | null;
   onCitySelect: (city: CityResult) => void;
 };
 
