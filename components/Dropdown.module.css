@@ -17,7 +17,8 @@
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  width: 150px;
+  min-width: 150px;
+  outline: 1px solid var(--neutral-primary-600);
 }
 
 .separator {

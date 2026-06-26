@@ -46,9 +46,3 @@
   align-items: center;
   justify-content: space-between;
 }
-
-.emptyCard {
-  background-color: var(--neutral-primary-600);
-  height: 48px;
-  border-radius: 6px;
-}

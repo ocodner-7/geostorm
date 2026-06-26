@@ -118,7 +118,7 @@ export const convertPrecipitation = (mm: number, to: Units["precipitation"]) => 
   return to === "inch" ? mm / 25.4 : mm;
 };
 
-export const BuildWeatherViewModel = (data: WeatherData, units: Units) => {
+export const BuildWeatherView = (data: WeatherData, units: Units) => {
   return {
     current: {
       ...data.current,

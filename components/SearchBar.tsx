@@ -1,10 +1,7 @@
 "use client";
-// import { useState } from "react";
-// import { Button } from "./Button";
 import styles from "./SearchBar.module.css";
 import { Search, LoaderCircle } from "lucide-react";
 import { InputField } from "./Input";
-// import { useCitySearch } from "@/data/queries/useCitySearch";
 import type { CityResult } from "@/types";
 import { Autocomplete } from "@base-ui/react";
 
@@ -15,18 +12,16 @@ interface SearchBarProps {
   isSearchLoading: boolean;
   error: Error | null;
   onCitySelect: (city: CityResult) => void;
-}
+};
 
 export const SearchBar = ({
   query,
   onQueryChange,
   suggestions,
   isSearchLoading,
-  error,
   onCitySelect,
 }: SearchBarProps) => {
-  // const [selected, setSelected] = useState<CityResult | null>(null);
-  // const [open, setOpen] = useState(true);
+
 
   return (
     <div className={styles.root}>
@@ -40,10 +35,7 @@ export const SearchBar = ({
               value={query}
               onChange={(e) => {
                 onQueryChange(e.target.value);
-                // setOpen(true);
-                // setSelected(null);
               }}
-              // onFocus={() => setOpen(true)}
               placeholder="Search for a place..."
             />
           }
@@ -53,16 +45,12 @@ export const SearchBar = ({
           <Autocomplete.Positioner sideOffset={4} align="start">
             <Autocomplete.Popup className={styles.popup}>
               {isSearchLoading && (
-                <Autocomplete.Item className={styles.item}>
-                  <LoaderCircle className={styles.rotate} size={10} />
-                  Loading
+                <Autocomplete.Item className={styles.item} disabled>
+                  <div className={styles.loader}>
+                    <LoaderCircle className={styles.rotate} size={16} />
+                    Loading
+                  </div>
                 </Autocomplete.Item>
-              )}
-
-              {error && <div>Error</div>}
-
-              {suggestions.length === 0 && !isSearchLoading && (
-                <div>No search result found!</div>
               )}
 
               {suggestions.map((city) => (

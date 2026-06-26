@@ -1,8 +1,9 @@
 "use client";
 
 import { Select } from "@base-ui/react";
-import { CheckIcon, ChevronDownIcon } from "lucide-react"; // or wherever
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import styles from "./Dropdown.module.css";
+import { useRef } from "react";
 
 type DropdownItem<T extends string> = {
   value: T;
@@ -26,6 +27,9 @@ export function Dropdown<T extends string>({
   placeholder,
   "aria-label": ariaLabel,
 }: DropdownProps<T>) {
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
   return (
     <Select.Root
       value={value}
@@ -33,7 +37,7 @@ export function Dropdown<T extends string>({
         if (next !== null) onValueChange(next);
       }}
     >
-      <Select.Trigger className={styles.trigger} aria-label={ariaLabel}>
+      <Select.Trigger ref={triggerRef} className={styles.trigger} aria-label={ariaLabel}>
         <Select.Value placeholder={placeholder} />
         <Select.Icon>
           <ChevronDownIcon size={16} className={styles.icon}/>
@@ -41,7 +45,7 @@ export function Dropdown<T extends string>({
       </Select.Trigger>
 
       <Select.Portal>
-        <Select.Positioner align="center" >
+        <Select.Positioner sideOffset={4} side="bottom" align="center" alignItemWithTrigger={false}>
           <Select.Popup className={styles.popup}>
             {label && (
               <Select.GroupLabel className={styles.groupLabel}>

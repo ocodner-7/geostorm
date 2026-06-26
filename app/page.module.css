@@ -41,6 +41,14 @@
 }
 
 @media (min-width: 768px) {
+  .searchBarContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1440px) {
   .main {
     margin: 0 5rem;
     display: flex;

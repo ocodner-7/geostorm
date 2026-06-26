@@ -16,7 +16,6 @@ export const useUnits = ()  => {
   const setUnit = useCallback(
     <K extends keyof Units>(key: K, value: Units[K]) => {
       const params = new URLSearchParams(searchParams.toString());
-      // map back to short URL form
       const urlKey = { temperature: "temp", windSpeed: "wind", precipitation: "precip" }[key];
       const urlValue = {
         celsius: "c", fahrenheit: "f",
