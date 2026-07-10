@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Geostorm 🌦️
 
-## Getting Started
+A weather app built with the Next.js App Router — real-time conditions, hourly and 7-day forecasts, automatic location detection, and unit preferences that persist in the URL.
 
-First, run the development server:
+**[Live demo →](https://geostorm-weathernow.vercel.app/)**
+
+![Desktop view — metric units](./public/design/desktop-design-metric.jpg)
+
+## Features
+
+- **Automatic location detection** — requests the user's device location on load, with a graceful fallback to a default city if permission is denied or unavailable
+- **City search** — debounced search-as-you-type with a dropdown of matching results, plus explicit empty and no-results states
+- **Unit switching (metric / imperial)** — toggling temperature, wind speed, or precipitation units updates the URL as query params, so preferences survive a refresh or a shared link
+- **Skeleton loading states** — every data-dependent section (location panel, metric cards, daily forecast, hourly forecast) has a matching skeleton, so the layout doesn't jump as data arrives
+- **Error handling** — a dedicated error state with retry, rather than a silent failure or blank screen
+
+## Tech stack
+
+| | |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
+| UI library | [React 19](https://react.dev) |
+| Data fetching / caching | [TanStack Query](https://tanstack.com/query) |
+| Component primitives | [Base UI](https://base-ui.com) |
+| Styling | CSS Modules |
+| Weather data | [Open-Meteo](https://open-meteo.com) (forecast + geocoding, no API key required) |
+| Icons | [Lucide](https://lucide.dev) |
+
+## Architecture notes
+
+- **`data/api/`** — thin fetch wrappers around the Open-Meteo endpoints (forecast, reverse geocoding, city search), kept separate from React so they're easy to test or swap out
+- **`data/queries/`** — TanStack Query hooks (`useWeather`, `useDeviceLocation`, `useReverseGeocode`, `useCitySearch`) that wrap the API layer with caching, loading, and error states
+- **`hooks/useUnits.ts`** — reads and writes unit preferences directly to and from the URL's query string via `useSearchParams` / `router.replace`, so unit state is shareable and refresh-proof without any client-side storage
+- **`components/`** — presentational components paired 1:1 with their CSS Module, plus a `skeletons/` subfolder mirroring the components that need loading placeholders
+
+## Getting started
 
 ```bash
+git clone https://github.com/ocodner-7/geostorm.git
+cd geostorm
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). No environment variables or API keys are needed — Open-Meteo's endpoints are public.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Design reference
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Design mockups for each state (metric/imperial, loading, hover, focus, dropdown, error, no-results) are in [`public/design/`](./public/design), used as the source of truth during build.
