@@ -93,7 +93,6 @@ export default function Home() {
                 onQueryChange={setQuery}
                 suggestions={search.data ?? []}
                 isSearchLoading={search.isLoading}
-                error={search.error}
                 onCitySelect={handleSelectCity}
               />
             </div>
