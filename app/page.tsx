@@ -10,7 +10,7 @@ import { APIError } from "@/components/APIError";
 import { DailyForecastCard } from "@/components/DailyForecastCard";
 import { HourlyForecastModule } from "@/components/HourlyForecastModule";
 import { useCitySearch } from "@/data/queries/useCitySearch";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { CityResult } from "@/types";
 import { useWeather } from "@/data/queries/useWeather";
@@ -25,7 +25,7 @@ import { HourlyForecastModuleSkeleton } from "@/components/skeletons/HourlyForec
 
 const LONDON_FALLBACK = { lat: 51.5074, lon: -0.1278 };
 
-export default function Home() {
+function HomeContent() {
   const [query, setQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState<CityResult | null>(null);
 
@@ -182,4 +182,13 @@ export default function Home() {
       </main>
     </div>
   );
+}
+
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
+  )
 }
