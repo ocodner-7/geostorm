@@ -98,7 +98,7 @@ function HomeContent() {
             </div>
 
             {noResults ? (
-              <p>No search result found!</p>
+              <p role="status">No search result found!</p>
             ) : isInitialising ? (
               <Module className={styles.data}>
                 <Module className={styles.todayForecast}>
@@ -156,7 +156,7 @@ function HomeContent() {
                 </Module>
 
                 <Module className={styles.dailyForecast}>
-                  <h4>Daily Forecast</h4>
+                  <h2>Daily Forecast</h2>
                   <div className={styles.dailyForecastCards}>
                     {view.daily.slice(1, 8).map((day) => (
                       <DailyForecastCard

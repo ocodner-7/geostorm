@@ -10,9 +10,9 @@ export const mapWeatherCode = (code: number): WeatherCondition => {
 
   if (code === 45 || code === 48) return "fog";
 
-  if ([51, 53, 55].includes(code)) return "drizzle";
+  if ([51, 53, 55, 56, 57].includes(code)) return "drizzle";
 
-  if ([61, 63, 65, 80, 81, 82].includes(code)) return "rain";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "rain";
 
   if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
 
@@ -20,6 +20,20 @@ export const mapWeatherCode = (code: number): WeatherCondition => {
 
   return "sunny";
 };
+
+const WEATHER_LABELS: Record<WeatherCondition, string> = {
+  sunny: "Sunny",
+  cloudy: "Partly cloudy",
+  overcast: "Overcast",
+  fog: "Fog",
+  drizzle: "Drizzle",
+  rain: "Rain",
+  snow: "Snow",
+  storm: "Thunderstorm",
+};
+
+export const getWeatherDescription = (code: number) =>
+  WEATHER_LABELS[mapWeatherCode(code)];
 
 const weatherIconMap: Record<string, string> = {
   sunny: "/images/icon-sunny.webp",
@@ -48,7 +62,7 @@ export const normalizeWeatherData = (
       apparentTemperature: raw.current.apparent_temperature,
       humidity: raw.current.relative_humidity_2m,
       precipitation: raw.current.precipitation,
-      windSpeed: raw.current.wind_speed_10m
+      windSpeed: raw.current.wind_speed_10m,
     },
     hourly: raw.hourly.time.map((time, i) => ({
       time,
@@ -98,7 +112,7 @@ export const getDayLabel = (dateString: string) => {
 
 export const convertTemperature = (
   celsius: number,
-  to: Units["temperature"]
+  to: Units["temperature"],
 ) => {
   if (to === "fahrenheit") {
     return (celsius * 9) / 5 + 32;
@@ -114,7 +128,10 @@ export const convertWindSpeed = (kmh: number, to: Units["windSpeed"]) => {
   return to === "mph" ? kmh * 0.621371 : kmh;
 };
 
-export const convertPrecipitation = (mm: number, to: Units["precipitation"]) => {
+export const convertPrecipitation = (
+  mm: number,
+  to: Units["precipitation"],
+) => {
   return to === "inch" ? mm / 25.4 : mm;
 };
 
@@ -123,55 +140,46 @@ export const BuildWeatherView = (data: WeatherData, units: Units) => {
     current: {
       ...data.current,
 
-      temperature: round(convertTemperature(
-        data.current.temperature,
-        units.temperature
-      )),
+      temperature: round(
+        convertTemperature(data.current.temperature, units.temperature),
+      ),
 
-      apparentTemperature: round(convertTemperature(
-        data.current.apparentTemperature,
-        units.temperature
-      )),
+      apparentTemperature: round(
+        convertTemperature(data.current.apparentTemperature, units.temperature),
+      ),
 
-      windSpeed: round(convertWindSpeed(
-        data.current.windSpeed,
-        units.windSpeed
-      )),
+      windSpeed: round(
+        convertWindSpeed(data.current.windSpeed, units.windSpeed),
+      ),
 
-      precipitation: round(convertPrecipitation(
-        data.current.precipitation,
-        units.precipitation
-      )),
+      precipitation: round(
+        convertPrecipitation(data.current.precipitation, units.precipitation),
+      ),
     },
 
     hourly: data.hourly.map((h) => ({
       ...h,
       temperature: round(convertTemperature(h.temperature, units.temperature)),
-      apparentTemperature: round(convertTemperature(
-        h.apparentTemperature,
-        units.temperature
-      )),
+      apparentTemperature: round(
+        convertTemperature(h.apparentTemperature, units.temperature),
+      ),
       windSpeed: round(convertWindSpeed(h.windSpeed, units.windSpeed)),
-      precipitation: round(convertPrecipitation(
-        h.precipitation,
-        units.precipitation
-      )),
+      precipitation: round(
+        convertPrecipitation(h.precipitation, units.precipitation),
+      ),
     })),
 
     daily: data.daily.map((d) => ({
       ...d,
-      maxTemperature: round(convertTemperature(
-        d.maxTemperature,
-        units.temperature
-      )),
-      minTemperature: round(convertTemperature(
-        d.minTemperature,
-        units.temperature
-      )),
-      precipitationSum: round(convertPrecipitation(
-        d.precipitationSum,
-        units.precipitation
-      )),
+      maxTemperature: round(
+        convertTemperature(d.maxTemperature, units.temperature),
+      ),
+      minTemperature: round(
+        convertTemperature(d.minTemperature, units.temperature),
+      ),
+      precipitationSum: round(
+        convertPrecipitation(d.precipitationSum, units.precipitation),
+      ),
       rainSum: round(convertPrecipitation(d.rainSum, units.precipitation)),
     })),
   };

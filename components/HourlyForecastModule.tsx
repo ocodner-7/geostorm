@@ -4,6 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import { Dropdown } from "./Dropdown";
 import {
   getDayLabel,
+  getWeatherDescription,
   getWeatherIcon,
   groupHourlyDataByDay,
 } from "@/data/utils";
@@ -46,12 +47,12 @@ export const HourlyForecastModule = ({
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <p className={styles.title}>Hourly forecast</p>
+        <h2 className={styles.title}>Hourly forecast</h2>
 
         <Dropdown<string>
           value={dropdownValue}
           onValueChange={setSelectedDay}
-          aria-label="day"
+          aria-label="Day for hourly forecast"
           items={days.slice(1, 7).map((d) => ({
             value: d.key,
             label: d.label,
@@ -73,6 +74,7 @@ export const HourlyForecastModule = ({
               key={hour.time.toISOString()}
               icon={getWeatherIcon(hour.code)}
               time={formattedTime}
+              description={getWeatherDescription(hour.code)}
               temperature={hour.temp}
             />
           );
@@ -86,12 +88,14 @@ interface HourlyForecastCardProps {
   icon: StaticImageData | string;
   time: string;
   temperature: number;
+  description: string;
 };
 
 const HourlyForecastCard = ({
   icon,
   time,
   temperature,
+  description
 }: HourlyForecastCardProps) => {
   return (
     <div className={styles.hourlyForecast}>
@@ -100,7 +104,7 @@ const HourlyForecastCard = ({
           <Image
             style={{ display: "block" }}
             src={icon}
-            alt="hourly forecast icon"
+            alt={description}
             height={40}
             width={40}
           />

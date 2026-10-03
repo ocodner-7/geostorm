@@ -13,6 +13,8 @@ interface SearchBarProps {
   onCitySelect: (city: CityResult) => void;
 };
 
+const cityLabel = (city: CityResult) => `${city.cityName}, ${city.country}`;
+
 export const SearchBar = ({
   query,
   onQueryChange,
@@ -20,21 +22,30 @@ export const SearchBar = ({
   isSearchLoading,
   onCitySelect,
 }: SearchBarProps) => {
-
-
   return (
     <div className={styles.root}>
-      <Autocomplete.Root items={suggestions}>
+      <Autocomplete.Root
+        items={suggestions}
+        mode="none"
+        modal={false}
+        value={query}
+        itemToStringValue={cityLabel}
+        onValueChange={(value, details) => {
+          if (details.reason === "item-press") {
+            const city = suggestions.find((c) => cityLabel(c) === value);
+            if (city) onCitySelect(city);
+            return;
+          }
+          onQueryChange(value);
+        }}
+      >
         <Autocomplete.Input
+          aria-label="Search for a place"
           render={
             <InputField
               className={styles.searchInput}
               icon={<Search />}
               type="text"
-              value={query}
-              onChange={(e) => {
-                onQueryChange(e.target.value);
-              }}
               placeholder="Search for a place..."
             />
           }
@@ -43,27 +54,28 @@ export const SearchBar = ({
         <Autocomplete.Portal>
           <Autocomplete.Positioner sideOffset={4} align="start">
             <Autocomplete.Popup className={styles.popup}>
-              {isSearchLoading && (
-                <Autocomplete.Item className={styles.item} disabled>
-                  <div className={styles.loader}>
-                    <LoaderCircle className={styles.rotate} size={16} />
+              {/* Announced to screen readers when it changes */}
+              <Autocomplete.Status>
+                {isSearchLoading && (
+                  <div className={`${styles.item} ${styles.loader}`}>
+                    <LoaderCircle className={styles.rotate} size={16} aria-hidden />
                     Loading
                   </div>
-                </Autocomplete.Item>
-              )}
+                )}
+              </Autocomplete.Status>
 
-              {suggestions.map((city) => (
-                <Autocomplete.Item
-                  className={styles.item}
-                  key={city.id}
-                  value={city.cityName}
-                  onClick={() => {
-                    onCitySelect(city)     
-                }}
-                >
-                  {city.cityName}, {city.country}
-                </Autocomplete.Item>
-              ))}
+              {/* List gives the input its aria-controls target */}
+              <Autocomplete.List>
+                {(city: CityResult) => (
+                  <Autocomplete.Item
+                    key={city.id}
+                    value={city}
+                    className={styles.item}
+                  >
+                    {cityLabel(city)}
+                  </Autocomplete.Item>
+                )}
+              </Autocomplete.List>
             </Autocomplete.Popup>
           </Autocomplete.Positioner>
         </Autocomplete.Portal>
