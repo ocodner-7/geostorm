@@ -35,7 +35,7 @@ A weather app built with the Next.js App Router — real-time conditions, hourly
 
 ## Getting started
 
-```bash
+```bash 
 git clone https://github.com/ocodner-7/geostorm.git
 cd geostorm
 npm install
