@@ -4,8 +4,6 @@ A weather app built with the Next.js App Router: real-time conditions, hourly an
 
 [Live demo →](https://geostorm-weathernow.vercel.app/)
 
-<!-- Keep your existing screenshot line here -->
-
 ## Features
 
 - **Automatic location detection:** asks for the device's location on load, and falls back to London if permission is denied or unavailable
